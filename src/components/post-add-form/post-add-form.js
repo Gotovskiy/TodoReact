@@ -7,7 +7,7 @@ export default class PostAddForm extends React.Component {
 
   render() {
     return (
-      <form className="bottiom-panel d-flex">
+      <form className="bottom-panel d-flex">
         <input
           className="form-control new-post-label"
           placeholder="О чем вы думаете?"
