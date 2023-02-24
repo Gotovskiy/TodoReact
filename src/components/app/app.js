@@ -13,6 +13,7 @@ import "../post-status-filter/post-status-filter.css";
 import "../post-list-item/post-list-item.css";
 import "../post-list/post-list.css";
 import "../post-add-form/post-add-form.css";
+import "../post-list/post-list.css";
 
 export default class App extends React.Component {
   constructor(props) {
