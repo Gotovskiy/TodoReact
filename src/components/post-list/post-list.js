@@ -2,15 +2,18 @@ import React from "react";
 import PostListItem from "../post-list-item";
 import ListGroup from "react-bootstrap/ListGroup";
 
-const PostList = ({ posts }) => {
-  const elements = posts.map(({ label, important, like }) => {
-    console.log(label);
+const PostList = ({ posts, ToggleLike, ToggleImportant }) => {
+  const elements = posts.map(({ label, important, like, id }) => {
     return (
-      <ul className="app-list list-group">
-        <li className="list-group-item">
-          <PostListItem label={label} important={important} like={like} />
-        </li>
-      </ul>
+      <li key={id} className="list-group-item">
+        <PostListItem
+          ToggleImportant={() => ToggleImportant(id)}
+          ToggleLike={() => ToggleLike(id)}
+          label={label}
+          important={important}
+          like={like}
+        />
+      </li>
     );
   });
 

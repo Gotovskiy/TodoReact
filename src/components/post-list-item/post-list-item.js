@@ -2,7 +2,7 @@ import React from "react";
 
 export default class PostListItem extends React.Component {
   render() {
-    const { label, important, like } = this.props;
+    const { label, important, like, ToggleLike, ToggleImportant } = this.props;
     let classNames = "app-list-item d-flex justify-content-between";
     if (important) {
       classNames += " important";
@@ -12,9 +12,11 @@ export default class PostListItem extends React.Component {
     }
     return (
       <div className={classNames}>
-        <span className="app-list-item-label">{label}</span>
+        <span className="app-list-item-label" onClick={ToggleLike}>
+          {label}
+        </span>
         <div className="d-flex justify-content-center align-items-center">
-          <button className="btn-star btn-sm">
+          <button className="btn-star btn-sm" onClick={ToggleImportant}>
             <i className="fa-solid fa-star"></i>
           </button>
           <button className="btn-trash btn-sm">
