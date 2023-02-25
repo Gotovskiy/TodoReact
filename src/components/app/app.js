@@ -5,6 +5,7 @@ import SearchPanel from "../search-panel";
 import PostStatusFilter from "../post-status-filter";
 import PostList from "../post-list";
 import PostAddForm from "../post-add-form";
+import { v4 as uuidv4 } from "uuid";
 //css
 import "../app/app.css";
 import "../app-header/app-header.css";
@@ -49,6 +50,8 @@ export default class App extends React.Component {
     };
     this.ToggleLike = this.ToggleLike.bind(this);
     this.ToggleImportant = this.ToggleImportant.bind(this);
+    this.DeleteItem = this.DeleteItem.bind(this);
+    this.AddItem = this.AddItem.bind(this);
   }
   ToggleLike(id) {
     this.setState(({ data }) => {
@@ -76,6 +79,29 @@ export default class App extends React.Component {
         newItem,
         ...data.slice(index + 1),
       ];
+      console.log(Date.now());
+      return { data: newArr };
+    });
+  }
+
+  DeleteItem(id) {
+    this.setState(({ data }) => {
+      const index = data.findIndex((elem) => elem.id === id);
+      const newArr = [...data.slice(0, index), ...data.slice(index + 1)];
+      return { data: newArr };
+    });
+  }
+
+  AddItem(input_text) {
+    console.log(input_text);
+    let newItem = {
+      label: input_text,
+      important: false,
+      like: false,
+      id: uuidv4(),
+    };
+    this.setState(({ data }) => {
+      const newArr = [newItem, ...data.slice(0)];
       return { data: newArr };
     });
   }
@@ -92,8 +118,9 @@ export default class App extends React.Component {
           posts={this.state.data}
           ToggleLike={this.ToggleLike}
           ToggleImportant={this.ToggleImportant}
+          DeleteItem={this.DeleteItem}
         />
-        <PostAddForm />
+        <PostAddForm AddItem={this.AddItem} />
       </div>
     );
   }
