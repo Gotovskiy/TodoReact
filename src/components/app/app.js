@@ -47,8 +47,8 @@ export default class App extends React.Component {
           id: "asafsad",
         },
       ],
-      term: "",
-      filter: "likes",
+      search: "",
+      filter: "all",
     };
     this.ToggleLike = this.ToggleLike.bind(this);
     this.ToggleImportant = this.ToggleImportant.bind(this);
@@ -56,6 +56,7 @@ export default class App extends React.Component {
     this.AddItem = this.AddItem.bind(this);
     this.FilterPost = this.FilterPost.bind(this);
     this.OnFilterSelect = this.OnFilterSelect.bind(this);
+    this.SearchFilter = this.SearchFilter.bind(this);
   }
   ToggleLike(id) {
     this.setState(({ data }) => {
@@ -121,11 +122,14 @@ export default class App extends React.Component {
       return items;
     }
   }
+  onUpdateSearch(search) {
+    this.setState({ search });
+  }
 
-  Filter() {}
+  SearchFilter() {}
 
   render() {
-    const { data, term, filter } = this.state;
+    const { data, search, filter } = this.state;
     const liked = this.state.data.filter((item) => item.like).length;
     const count = this.state.data.length;
     const visiblePosts = this.FilterPost(data, filter);
@@ -134,8 +138,11 @@ export default class App extends React.Component {
       <div className="main-box">
         <AppHeader count={count} liked={liked} />
         <div className="search-panel d-flex">
-          <SearchPanel />
-          <PostStatusFilter OnFilterSelect={this.OnFilterSelect} />
+          <SearchPanel SearchFilter={this.SearchFilter} />
+          <PostStatusFilter
+            OnFilterSelect={this.OnFilterSelect}
+            filter={filter}
+          />
         </div>
         <PostList
           posts={visiblePosts}
