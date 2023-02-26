@@ -5,11 +5,15 @@ export default class AppHeader extends React.Component {
     super(props);
     this.hello = 123;
   }
+
   render() {
+    const { count, liked } = this.props;
     return (
       <div className="app-header">
         <h1>Lukin Egor</h1>
-        <h2>5 записей, из них понравилось 0</h2>
+        <h2>
+          {count} записей, из них понравилось {liked}
+        </h2>
       </div>
     );
   }

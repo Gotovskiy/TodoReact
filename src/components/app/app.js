@@ -47,11 +47,15 @@ export default class App extends React.Component {
           id: "asafsad",
         },
       ],
+      term: "",
+      filter: "likes",
     };
     this.ToggleLike = this.ToggleLike.bind(this);
     this.ToggleImportant = this.ToggleImportant.bind(this);
     this.DeleteItem = this.DeleteItem.bind(this);
     this.AddItem = this.AddItem.bind(this);
+    this.FilterPost = this.FilterPost.bind(this);
+    this.OnFilterSelect = this.OnFilterSelect.bind(this);
   }
   ToggleLike(id) {
     this.setState(({ data }) => {
@@ -106,16 +110,35 @@ export default class App extends React.Component {
     });
   }
 
+  OnFilterSelect(filter) {
+    this.setState({ filter });
+  }
+
+  FilterPost(items, filter) {
+    if (filter === "like") {
+      return items.filter((item) => item.like);
+    } else {
+      return items;
+    }
+  }
+
+  Filter() {}
+
   render() {
+    const { data, term, filter } = this.state;
+    const liked = this.state.data.filter((item) => item.like).length;
+    const count = this.state.data.length;
+    const visiblePosts = this.FilterPost(data, filter);
+    console.log(visiblePosts);
     return (
       <div className="main-box">
-        <AppHeader />
+        <AppHeader count={count} liked={liked} />
         <div className="search-panel d-flex">
           <SearchPanel />
-          <PostStatusFilter />
+          <PostStatusFilter OnFilterSelect={this.OnFilterSelect} />
         </div>
         <PostList
-          posts={this.state.data}
+          posts={visiblePosts}
           ToggleLike={this.ToggleLike}
           ToggleImportant={this.ToggleImportant}
           DeleteItem={this.DeleteItem}
