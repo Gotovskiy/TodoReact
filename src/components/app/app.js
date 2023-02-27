@@ -47,7 +47,7 @@ export default class App extends React.Component {
           id: "asafsad",
         },
       ],
-      search: "",
+      term: "",
       filter: "all",
     };
     this.ToggleLike = this.ToggleLike.bind(this);
@@ -56,7 +56,8 @@ export default class App extends React.Component {
     this.AddItem = this.AddItem.bind(this);
     this.FilterPost = this.FilterPost.bind(this);
     this.OnFilterSelect = this.OnFilterSelect.bind(this);
-    this.SearchFilter = this.SearchFilter.bind(this);
+    this.searchFilter = this.searchFilter.bind(this);
+    this.onUpdateSearch = this.onUpdateSearch.bind(this);
   }
   ToggleLike(id) {
     this.setState(({ data }) => {
@@ -84,7 +85,6 @@ export default class App extends React.Component {
         newItem,
         ...data.slice(index + 1),
       ];
-      console.log(Date.now());
       return { data: newArr };
     });
   }
@@ -98,7 +98,6 @@ export default class App extends React.Component {
   }
 
   AddItem(input_text) {
-    console.log(input_text);
     let newItem = {
       label: input_text,
       important: false,
@@ -122,23 +121,31 @@ export default class App extends React.Component {
       return items;
     }
   }
-  onUpdateSearch(search) {
-    this.setState({ search });
+  onUpdateSearch(term) {
+    this.setState({ term });
   }
 
-  SearchFilter() {}
+  searchFilter(data, term) {
+    console.log(data, term);
+    if (term.length === 0) {
+      return data;
+    } else {
+      return data.filter((item) => {
+        return item.label.indexOf(term) > -1;
+      });
+    }
+  }
 
   render() {
-    const { data, search, filter } = this.state;
+    const { data, term, filter } = this.state;
     const liked = this.state.data.filter((item) => item.like).length;
     const count = this.state.data.length;
-    const visiblePosts = this.FilterPost(data, filter);
-    console.log(visiblePosts);
+    const visiblePosts = this.FilterPost(this.searchFilter(data, term), filter);
     return (
       <div className="main-box">
         <AppHeader count={count} liked={liked} />
         <div className="search-panel d-flex">
-          <SearchPanel SearchFilter={this.SearchFilter} />
+          <SearchPanel onUpdateSearch={this.onUpdateSearch} />
           <PostStatusFilter
             OnFilterSelect={this.OnFilterSelect}
             filter={filter}

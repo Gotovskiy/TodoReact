@@ -3,24 +3,25 @@ import React from "react";
 export default class SearchPanel extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      search: "",
-    };
-    this.ChangeInput = this.ChangeInput.bind(this);
-  }
-  ChangeInput(e) {
-    this.setState = { input: e.target.value };
 
-    this.props.onUpdateSearch(this.state.search);
+    this.State = {
+      term: "",
+    };
+    this.onUpdateSearch = this.onUpdateSearch.bind(this);
+  }
+  onUpdateSearch(e) {
+    const term = e.target.value;
+    this.setState({ term });
+    this.props.onUpdateSearch(term);
   }
   render() {
     return (
       <input
         className="form-control search-panel"
+        type="text"
         placeholder="Поиск по записи"
-        value={this.state.search}
-        onChange={this.ChangeInput}
-      ></input>
+        onChange={this.onUpdateSearch}
+      />
     );
   }
 }
