@@ -5,7 +5,6 @@ import SearchPanel from "../search-panel";
 import PostStatusFilter from "../post-status-filter";
 import PostList from "../post-list";
 import PostAddForm from "../post-add-form";
-import { v4 as uuidv4 } from "uuid";
 //css
 import "../app/app.css";
 import "../app-header/app-header.css";
@@ -102,7 +101,7 @@ export default class App extends React.Component {
       label: input_text,
       important: false,
       like: false,
-      id: uuidv4(),
+      id: Date.now(),
     };
     this.setState(({ data }) => {
       const newArr = [newItem, ...data.slice(0)];
